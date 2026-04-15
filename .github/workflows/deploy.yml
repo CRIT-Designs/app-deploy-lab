@@ -1,0 +1,26 @@
+name: Trigger pipeline
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Verify repo contents
+        shell: powershell
+        run: |
+          Get-ChildItem -Force
+
+      - name: Run install script
+        shell: powershell
+        run: |
+          Set-ExecutionPolicy Bypass -Scope Process -Force
+          .\install.ps1
